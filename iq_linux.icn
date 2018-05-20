@@ -1,0 +1,310 @@
+
+link wopen
+link xcompat
+link color
+link graphics
+link numbers
+link options
+link button
+link dsetup
+link evmux
+link ivalue 
+link usage
+link strings
+link cfunc
+
+procedure main()
+
+WOpen("label=IQTERM", "size=700,800","bg=black","linewidth=1","fg=green")
+
+        WAttrib("dx=1", "dy=1")
+
+        inst()
+  
+        repeat {
+
+w := Active() | stop("Active fails")
+
+################################
+
+#not presently used - can be modified to re-introduce mouse events.
+   
+       case e := Event(w) of {
+
+&lpress | &mpress | &rpress: {
+	      x1 := &x
+	      y1 := &y
+	      x2 := y2 := &null
+	  }
+
+################################
+
+#begin basic keyboard commands.
+
+"\z": {
+	 
+        WriteImage("screen.png")
+
+              }
+
+"\a": {
+	      Fg("red")
+              }
+"\s": {
+	      Fg("green")
+              }
+"\g": {
+	      Fg("orange")
+              }
+"\h": {
+	      Fg("blue")
+              }
+"\j": {
+	      Fg("purple")
+              }
+"\G": {
+	      Fg("yellow")
+              }
+"\H": {
+	      Fg("black")
+              }
+"\J": {
+	      Fg("white")
+              }
+"\?": {       
+              inst()      
+              }
+"\]": {       
+              EraseArea()
+              }
+"\@": {
+              exit()
+              }
+"\.": { 
+              Notice("THIS IS JUST A TEST THING SO IGNORE ME")
+              }
+"\,": { 
+              openImage()
+              }
+"\;": {      
+              inputprompt()
+              }
+"\(": { 
+              tmt()
+             
+	}
+    }
+  }
+
+WDone()
+
+end
+
+#####################################
+
+procedure inst()
+
+WAttrib("dx=1", "dy=1")
+
+Fg("red")
+
+WWrite("Welcome to IPFS Quickie (IQ)!")
+
+Fg("green")
+
+WWrite("")
+WWrite("This is a *very* simplistic app for making quick,")
+WWrite("basic HTML pages for IPFS.")
+WWrite("")
+WWrite("NOTE: For Windows, IPFS must be in a file on your C drive")
+WWrite("called go-ipfs.")
+WWrite("")
+WWrite("INST: To start, the IPFS Daemon must be running. For best results, IQ")
+WWrite("should be started from a seperate terminal (do this if you haven't already).")
+WWrite("")
+WWrite("Create a content folder, name it anything you want, and then put whatever")
+WWrite("images, files etc you want for your webpage (limit 15 for now).")
+WWrite("")
+WWrite("Press ; and then type html. You will be prompted to enter the file")
+WWrite("path to the content folder you created. Hit enter.")
+WWrite("")
+WWrite("Then you will be prompted to enter the header title text")
+WWrite("for your webpage. Do so and then enter again.") 
+WWrite("")
+WWrite("Then you will be prompted to enter a single line of text to describe your page.")
+WWrite("Write what you want and then enter again.")
+WWrite("")
+WWrite("You will then be prompted to enter the files you want on your webpage.")
+WWrite("Enter the names as they are spelled (with extension) in your content folder.")
+WWrite("Type a filename, then hit enter. Type another filename, hit enter again,")
+WWrite("and so on. If no more files then hit enter until all 15 entries are filled.")
+WWrite("") 
+WWrite("You will get a message telling you when all entries are made.")
+WWrite("Hit enter.")
+WWrite("")
+WWrite("IPFS will create a list of hashes in the terminal. The last hash is the one") 
+WWrite("you want. Copy that, and then paste it inside this address in your browser:")
+WWrite("")
+WWrite("http://127.0.0.1:8080/ipfs/*paste hash here*/")
+WWrite("")
+WWrite("Your full page with links to files should appear.")  
+WWrite("")
+WWrite("https://github.com/shawnfratis")
+
+end
+
+#############################################################
+
+procedure links2()
+system("./links2")
+end
+
+##############################################################
+
+procedure ipfs()
+system("/usr/local/bin/ipfs daemon")
+end
+
+##############################################################
+
+procedure ipfscat()
+system("/usr/local/bin/ipfs cat /ipfs/QmW2WQi7j6c7UgJTarActp7tDNikE4B2qXtFCfLPdsgaTQ/cat.jpg >cat.jpg")
+end
+
+###############################################
+
+procedure inputprompt()
+ 
+        s1 := WRead()
+
+        WAttrib("dx=1", "dy=1")
+
+        ss1 :=( "html")
+        ss2 :=( "ipfs")
+        ss3 :=( "test")
+        ss4 :=( "links2")
+        
+        if s1== ss1 then textin01() 
+        else
+        if s1== ss2 then ipfssite() 
+        else
+        if s1== ss3 then testipfs() 
+        else
+        if s1== ss4 then links2()        
+
+    return
+
+end
+
+#######################################################
+
+procedure textin01()
+
+   WWrite("Enter folder path")
+
+   s3 := WRead()
+       
+   WWrite("Enter header text")
+
+   s := WRead()
+
+   WWrite("Enter page text")
+
+   s2 := WRead()
+
+   WWrite("Enter filenames (limit 15, if none enter blank)")
+
+   S3 := WRead()
+   S4 := WRead()
+   S5 := WRead()
+   S6 := WRead()
+   S7 := WRead()
+   S8 := WRead()
+   S9 := WRead()
+   S10 := WRead()
+   S11 := WRead()
+   S12 := WRead()
+   S13 := WRead()
+   S14 := WRead()
+   S15 := WRead()
+   S16 := WRead()
+   S17 := WRead()
+
+   out1 := open(s3||"index.html","w")
+
+   write(out1,"<HTML><HEAD>")
+   write(out1,"<TITLE>",s,"</TITLE></HEAD>")
+   write(out1,"<LEFT><B><FONT SIZE = +1>",s2,"</FONT>")
+   write(out1,"<br>")
+   write(out1,"<BODY>")
+
+   every file := S3 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S4 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S5 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S6 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S7 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S8 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S9 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S10 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S11 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S12 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S13 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S14 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S15 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S16 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   every file := S17 do
+   write(out1,"<A HREF=\"", file, "\">", file, "</A><BR>")
+
+   write(out1,"</BODY></HTML>")
+
+   WWrite("All files entered")
+
+   ipfssite(s3)
+
+end
+
+procedure ipfssite(s1)
+
+   system("cp index.html "||s1, "index.html")
+
+   system("ls"||s1)
+
+   system("img index.html")
+
+   system("/usr/local/bin/ipfs add -r "||s1)
+
+end
+
+#END OF PROGRAM########################################
+
+
+
+
